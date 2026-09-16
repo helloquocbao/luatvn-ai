@@ -76,16 +76,26 @@ nên chi phí không đáng kể.
 
 ## Cài đặt
 
+**Yêu cầu:** Python 3.12, RAM ≥ 16 GB, ổ trống ~20 GB. Các con số thời gian bên
+dưới đo trên Apple Silicon (M4) dùng GPU tích hợp qua MPS; máy chỉ có CPU sẽ
+chậm hơn đáng kể ở bước `embed`.
+
 ```bash
 pip3 install --user uv          # nếu chưa có
 uv sync                          # tạo môi trường Python 3.12
 ```
 
-Cần Ollama cho phần sinh câu trả lời:
+Cần Ollama cho phần sinh câu trả lời. Lưu ý `ollama serve` chạy tiền cảnh và
+không tự thoát, nên phải cho chạy nền rồi mới `pull` ở cửa sổ khác:
 
 ```bash
-brew install ollama && ollama serve && ollama pull qwen3:8b
+brew install ollama            # macOS; Linux: curl -fsSL https://ollama.com/install.sh | sh
+ollama serve &                 # chạy nền
+ollama pull qwen3:8b           # ~5 GB
 ```
+
+`./run.sh` sẽ tự khởi động Ollama nếu thấy chưa chạy, nên bước `ollama serve`
+ở trên chỉ cần cho lần `pull` đầu tiên.
 
 ## Dựng dữ liệu (một lần)
 
