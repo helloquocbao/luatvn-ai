@@ -1,0 +1,12 @@
+[
+  {"q": "Điều kiện thành lập công ty cổ phần", "expect_doc": "59/2020/QH14", "expect_dieu": "111"},
+  {"q": "Công ty trách nhiệm hữu hạn hai thành viên trở lên là gì", "expect_doc": "59/2020/QH14", "expect_dieu": "46"},
+  {"q": "Người lao động đơn phương chấm dứt hợp đồng lao động phải báo trước bao nhiêu ngày", "expect_doc": "45/2019/QH14", "expect_dieu": "35"},
+  {"q": "Tuổi nghỉ hưu của người lao động", "expect_doc": "45/2019/QH14", "expect_dieu": "169"},
+  {"q": "Ly hôn theo yêu cầu của một bên", "expect_doc": "52/2014/QH13", "expect_dieu": "56"},
+  {"q": "Điều kiện kết hôn theo luật hôn nhân gia đình", "expect_doc": "52/2014/QH13", "expect_dieu": "8"},
+  {"q": "Thời hiệu khởi kiện vụ án dân sự", "expect_doc": "92/2015/QH13", "expect_dieu": "184"},
+  {"q": "Các trường hợp thu hồi đất vì mục đích quốc phòng an ninh", "expect_doc": "31/2024/QH15", "expect_dieu": "78"},
+  {"q": "Tội cố ý gây thương tích bị phạt thế nào", "expect_doc": "100/2015/QH13", "expect_dieu": "134"},
+  {"q": "Thời hiệu truy cứu trách nhiệm hình sự", "expect_doc": "100/2015/QH13", "expect_dieu": "27"}
+]

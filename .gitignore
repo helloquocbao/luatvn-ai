@@ -1,0 +1,9 @@
+data/raw/
+data/db/
+data/index/
+data/*.log
+data/*.pid
+.venv/
+__pycache__/
+*.pyc
+.DS_Store

@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trợ lý pháp luật Việt Nam</title>
+<style>
+:root{
+  --bg:#f7f7f5; --panel:#fff; --ink:#1c1c1a; --muted:#6b6b66; --line:#e3e3df;
+  --accent:#8a5a2b; --accent-soft:#f3ece3; --warn:#b3261e; --ok:#2e7d32;
+  --radius:10px; --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#191917; --panel:#232320; --ink:#ecece8; --muted:#9a9a93; --line:#35352f;
+  --accent:#d9a066; --accent-soft:#2e2820; --warn:#f2b8b5; --ok:#a5d6a7;}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+header{display:flex;align-items:center;gap:12px;padding:12px 20px;
+  border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:10;flex-wrap:wrap}
+header h1{font-size:16px;margin:0;font-weight:650;letter-spacing:-.01em}
+.stat{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px}
+.dot.on{background:var(--ok)}.dot.off{background:var(--warn)}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:18px;
+  max-width:1400px;margin:0 auto;padding:18px 20px 90px}
+@media(max-width:980px){.wrap{grid-template-columns:1fr}.side{order:-1}}
+
+.msg{margin-bottom:20px}
+.msg .who{font-size:12px;font-weight:650;color:var(--muted);margin-bottom:5px;
+  text-transform:uppercase;letter-spacing:.06em}
+.bubble{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px 16px;white-space:pre-wrap;overflow-wrap:anywhere}
+.bubble ul{margin:6px 0;padding-left:20px;white-space:normal}
+.bubble li{margin:3px 0}
+.bubble code{background:var(--bg);border:1px solid var(--line);border-radius:4px;
+  padding:1px 5px;font:12.5px var(--mono)}
+.msg.me .bubble{background:var(--accent-soft);border-color:transparent}
+.cite{display:inline-block;min-width:19px;height:19px;line-height:19px;text-align:center;
+  background:var(--accent);color:#fff;border-radius:5px;font-size:11px;font-weight:700;
+  padding:0 5px;margin:0 1px;cursor:pointer;vertical-align:1px}
+.cite:hover{opacity:.8}
+
+.side{position:sticky;top:64px;align-self:start;max-height:calc(100vh - 84px);overflow:auto}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:12px 14px;margin-bottom:10px;font-size:13px}
+.card.hl{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.card .n{display:inline-block;background:var(--accent);color:#fff;border-radius:5px;
+  font-size:11px;font-weight:700;padding:1px 6px;margin-right:6px}
+.card .t{font-weight:620;margin:6px 0 4px;line-height:1.35}
+.card .s{color:var(--muted);font-size:12px;max-height:80px;overflow:hidden}
+.card .meta{color:var(--muted);font-size:11px;margin-top:7px;display:flex;gap:8px;flex-wrap:wrap}
+.tag{background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:1px 6px}
+.tag.exp{color:var(--warn);border-color:var(--warn)}
+.card a,.card button.link{color:var(--accent);text-decoration:none;font-size:12px;
+  background:none;border:none;padding:0;cursor:pointer;font-family:inherit}
+
+.composer{position:fixed;bottom:0;left:0;right:0;background:var(--panel);
+  border-top:1px solid var(--line);padding:12px 20px}
+.composer .inner{max-width:1400px;margin:0 auto;display:flex;gap:10px;align-items:flex-end}
+textarea{flex:1;resize:none;border:1px solid var(--line);border-radius:var(--radius);
+  padding:10px 12px;font:inherit;background:var(--bg);color:var(--ink);max-height:160px}
+button.go{background:var(--accent);color:#fff;border:none;border-radius:var(--radius);
+  padding:11px 20px;font:inherit;font-weight:620;cursor:pointer}
+button.go:disabled{opacity:.45;cursor:default}
+.hint{max-width:1400px;margin:8px auto 0;font-size:11px;color:var(--muted)}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.chip{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:5px 11px;font-size:12.5px;cursor:pointer}
+.chip:hover{border-color:var(--accent)}
+dialog{border:none;border-radius:12px;padding:0;max-width:880px;width:92vw;height:86vh;
+  background:var(--panel);color:var(--ink)}
+dialog::backdrop{background:#0008}
+.dlg-h{position:sticky;top:0;background:var(--panel);border-bottom:1px solid var(--line);
+  padding:14px 18px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.dlg-b{padding:16px 18px;overflow:auto;height:calc(86vh - 70px)}
+.art{margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.art h4{margin:0 0 5px;font-size:13.5px;color:var(--accent)}
+.art p{margin:0;white-space:pre-wrap;font-size:13.5px}
+.err{color:var(--warn);font-size:13px}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid var(--line);
+  border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<header>
+  <h1>⚖️ Trợ lý pháp luật Việt Nam</h1>
+  <span class="stat" id="stat">đang tải…</span>
+  <span class="stat" id="llm"></span>
+</header>
+
+<div class="wrap">
+  <main>
+    <div class="chips" id="chips"></div>
+    <div id="chat"></div>
+  </main>
+  <aside class="side">
+    <div class="card" style="color:var(--muted)">Nguồn trích dẫn sẽ hiện ở đây sau khi bạn hỏi.</div>
+    <div id="sources"></div>
+  </aside>
+</div>
+
+<div class="composer">
+  <div class="inner">
+    <textarea id="q" rows="1" placeholder="Hỏi về pháp luật Việt Nam… (Enter để gửi, Shift+Enter xuống dòng)"></textarea>
+    <button class="go" id="send">Gửi</button>
+  </div>
+  <div class="hint">Trả lời dựa trên corpus thuvienphapluat.vn, chạy hoàn toàn trên máy bạn. Mang tính tham khảo, không thay thế tư vấn pháp lý.</div>
+</div>
+
+<dialog id="dlg"><div class="dlg-h"><div id="dlg-t"></div>
+<button class="go" onclick="dlg.close()" style="padding:6px 14px">Đóng</button></div>
+<div class="dlg-b" id="dlg-b"></div></dialog>
+
+<script>
+const $ = s => document.querySelector(s);
+const chat = $('#chat'), sourcesEl = $('#sources'), dlg = $('#dlg');
+let history = [], busy = false, lastSources = [];
+
+const SAMPLES = [
+  'Điều kiện thành lập công ty cổ phần?',
+  'Mức phạt nồng độ cồn với xe máy hiện nay?',
+  'Thời hiệu khởi kiện tranh chấp đất đai là bao lâu?',
+  'Người lao động nghỉ việc cần báo trước bao nhiêu ngày?',
+  'Thủ tục đăng ký kết hôn với người nước ngoài',
+];
+$('#chips').innerHTML = SAMPLES.map(s => `<span class="chip">${s}</span>`).join('');
+$('#chips').onclick = e => { if (e.target.classList.contains('chip')) { $('#q').value = e.target.textContent; send(); } };
+
+const esc = s => (s ?? '').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+fetch('/api/health').then(r => r.json()).then(h => {
+  $('#stat').textContent =
+    `${h.docs.toLocaleString('vi')} văn bản · ${h.articles.toLocaleString('vi')} điều · ` +
+    `${h.qa.toLocaleString('vi')} hỏi đáp · ${h.terms.toLocaleString('vi')} thuật ngữ · ` +
+    `${h.vectors.toLocaleString('vi')} vector`;
+  $('#llm').innerHTML = h.llm_ready
+    ? `<span class="dot on"></span>${esc(h.llm_model)}`
+    : `<span class="dot off"></span>Ollama chưa chạy — vẫn tra cứu được, chưa sinh câu trả lời`;
+}).catch(() => $('#stat').textContent = 'không kết nối được máy chủ');
+
+function renderSources(list) {
+  lastSources = list;
+  sourcesEl.innerHTML = list.map(s => {
+    const m = s.meta || {};
+    const tags = [
+      m.doc_type && `<span class="tag">${esc(m.doc_type)}</span>`,
+      m.doc_number && `<span class="tag">${esc(m.doc_number)}</span>`,
+      m.year && `<span class="tag">${m.year}</span>`,
+      m.area && `<span class="tag">${esc(m.area)}</span>`,
+      m.expired ? `<span class="tag exp">hết hiệu lực</span>` : '',
+      (s.sources || []).includes('vector') ? `<span class="tag">ngữ nghĩa</span>` : '',
+      (s.sources || []).includes('bm25') ? `<span class="tag">từ khoá</span>` : '',
+    ].filter(Boolean).join('');
+    const open = s.doc_id ? `<button class="link" onclick="openDoc('${s.doc_id}')">Xem toàn văn →</button>` : '';
+    const ext = s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">Nguồn gốc ↗</a>` : '';
+    return `<div class="card" id="src-${s.index}">
+      <div><span class="n">${s.index}</span><b>${esc(s.label)}</b></div>
+      <div class="t">${esc(s.title)}</div>
+      <div class="s">${esc(s.snippet)}</div>
+      <div class="meta">${tags}</div>
+      <div class="meta">${open} ${ext}</div></div>`;
+  }).join('');
+}
+
+// Markdown tối giản: LLM chỉ dùng **đậm**, *nghiêng*, `mã`, gạch đầu dòng và
+// tiêu đề. Kéo cả thư viện markdown về chỉ để render bấy nhiêu là thừa, mà lại
+// mở thêm bề mặt XSS — ở đây escape trước rồi mới thay thế nên luôn an toàn.
+function render(text) {
+  let h = esc(text)
+    .replace(/^#{1,4}\s+(.+)$/gm, '<b>$1</b>')
+    .replace(/\*\*([^*\n]+)\*\*/g, '<b>$1</b>')
+    .replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<i>$2</i>')
+    .replace(/`([^`\n]+)`/g, '<code>$1</code>')
+    .replace(/^\s*[-–•]\s+(.+)$/gm, '<li>$1</li>')
+    .replace(/^\s*(\d+)\.\s+(.+)$/gm, '<li>$2</li>');
+  h = h.replace(/(<li>[\s\S]*?<\/li>)(?!\s*<li>)/g, '<ul>$1</ul>');
+  return h.replace(/\[(\d{1,2})\]/g, (m, n) =>
+    (+n <= lastSources.length) ? `<span class="cite" onclick="jump(${n})">${n}</span>` : m);
+}
+window.jump = n => {
+  const el = $(`#src-${n}`); if (!el) return;
+  document.querySelectorAll('.card.hl').forEach(e => e.classList.remove('hl'));
+  el.classList.add('hl'); el.scrollIntoView({behavior:'smooth', block:'center'});
+};
+
+window.openDoc = async id => {
+  $('#dlg-t').innerHTML = '<span class="spin"></span> đang tải…'; $('#dlg-b').innerHTML = ''; dlg.showModal();
+  try {
+    const d = await (await fetch('/api/doc/' + encodeURIComponent(id))).json();
+    const m = d.meta;
+    $('#dlg-t').innerHTML = `<div><b>${esc(m.display_title || m.title)}</b>
+      <div class="stat">${esc(m.doc_type||'')} ${esc(m.display_number||'')} ·
+      ${esc(m.issuer||'')} · ${m.year||''} ${m.expired ? '· <span style="color:var(--warn)">đã hết hiệu lực</span>' : ''}
+      ${m.url ? `· <a href="${esc(m.url)}" target="_blank" rel="noopener">nguồn ↗</a>` : ''}</div></div>`;
+    $('#dlg-b').innerHTML = d.articles.length
+      ? d.articles.map(a => `<div class="art">
+          ${a.chuong ? `<h4>${esc(a.chuong)}</h4>` : ''}<p>${esc(a.text)}</p></div>`).join('')
+      : '<p class="err">Văn bản này chưa có toàn văn trong cơ sở dữ liệu — hãy mở liên kết nguồn gốc.</p>';
+  } catch (e) { $('#dlg-b').innerHTML = `<p class="err">Lỗi tải văn bản: ${esc(e.message)}</p>`; }
+};
+
+function addMsg(who, cls) {
+  const d = document.createElement('div');
+  d.className = 'msg ' + cls;
+  d.innerHTML = `<div class="who">${who}</div><div class="bubble"></div>`;
+  chat.appendChild(d); d.scrollIntoView({behavior:'smooth', block:'end'});
+  return d.querySelector('.bubble');
+}
+
+async function send() {
+  const q = $('#q').value.trim();
+  if (!q || busy) return;
+  busy = true; $('#send').disabled = true; $('#q').value = '';
+  addMsg('Bạn', 'me').textContent = q;
+  const out = addMsg('Trợ lý', 'ai');
+  out.innerHTML = '<span class="spin"></span> đang tìm trong corpus…';
+
+  let acc = '';
+  try {
+    const r = await fetch('/api/chat', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({question: q, history})
+    });
+    if (!r.ok) throw new Error((await r.json()).detail || r.statusText);
+    const rd = r.body.getReader(), dec = new TextDecoder();
+    let buf = '';
+    for (;;) {
+      const {value, done} = await rd.read(); if (done) break;
+      buf += dec.decode(value, {stream:true});
+      const lines = buf.split('\n\n'); buf = lines.pop();
+      for (const ln of lines) {
+        if (!ln.startsWith('data: ')) continue;
+        const e = JSON.parse(ln.slice(6));
+        if (e.type === 'sources') { renderSources(e.sources); if (!acc) out.innerHTML = '<span class="spin"></span> đang soạn câu trả lời…'; }
+        else if (e.type === 'token') { acc += e.text; out.innerHTML = render(acc); }
+        else if (e.type === 'error') { out.innerHTML = `<span class="err">Lỗi: ${esc(e.message)}</span>`; }
+      }
+      chat.lastElementChild.scrollIntoView({behavior:'smooth', block:'end'});
+    }
+    if (acc) { history.push({role:'user', content:q}, {role:'assistant', content:acc}); }
+  } catch (e) {
+    out.innerHTML = `<span class="err">${esc(e.message)}</span><br>
+      <button class="link" onclick="searchOnly('${q.replace(/'/g,"\\'")}')">Chỉ tra cứu nguồn (không cần LLM) →</button>`;
+  }
+  busy = false; $('#send').disabled = false; $('#q').focus();
+}
+
+window.searchOnly = async q => {
+  const r = await fetch('/api/search', {method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({question:q, top_k:8})});
+  renderSources((await r.json()).sources);
+};
+
+$('#send').onclick = send;
+$('#q').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+});
+$('#q').addEventListener('input', e => {
+  e.target.style.height = 'auto'; e.target.style.height = e.target.scrollHeight + 'px';
+});
+</script>
+</body>
+</html>
