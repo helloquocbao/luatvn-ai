@@ -4,6 +4,24 @@ Chatbot hỏi–đáp pháp luật Việt Nam có trích dẫn, dựng trên cor
 `thuvienphapluat.vn`. Không gọi API bên ngoài: dữ liệu, mô hình nhúng, mô hình
 xếp hạng và mô hình sinh câu trả lời đều chạy trên máy bạn.
 
+> ## ⚠️ Mục đích sử dụng
+>
+> **Dự án này được thực hiện cho mục đích học tập và nghiên cứu cá nhân.**
+>
+> - **Không phải tư vấn pháp lý.** Câu trả lời do mô hình ngôn ngữ sinh ra nên
+>   có thể sai, thiếu, hoặc dẫn văn bản đã hết hiệu lực. Không dùng làm căn cứ
+>   cho quyết định pháp lý, kinh doanh hay tố tụng. Hãy hỏi luật sư có chứng
+>   chỉ hành nghề.
+> - **Luôn đối chiếu văn bản gốc.** Mỗi trích dẫn đều kèm liên kết tới nguồn —
+>   hãy mở và tự kiểm chứng trước khi tin.
+> - **Không nhằm mục đích thương mại.** Dự án không thay thế, không cạnh tranh
+>   và không phân phối lại dịch vụ của thuvienphapluat.vn.
+> - **Repo không kèm dữ liệu.** Chỉ có mã nguồn. Người dùng tự tải corpus từ
+>   nguồn công khai và tự chịu trách nhiệm tuân thủ điều khoản của nguồn đó.
+> - Phần mềm được cung cấp "nguyên trạng", không kèm bảo đảm dưới bất kỳ hình
+>   thức nào. Tác giả không chịu trách nhiệm cho bất kỳ thiệt hại nào phát sinh
+>   từ việc sử dụng.
+
 ## Dữ liệu
 
 | Nguồn | Nội dung | Số lượng |
@@ -165,7 +183,16 @@ Hình sự), nên R@3 = 0,70 phản ánh đúng mức dùng được hơn.
   trong giao diện đều có liên kết tới trang gốc trên thuvienphapluat.vn.
 - Đây là công cụ tra cứu, không phải tư vấn pháp lý.
 
-## Giấy phép dữ liệu
+## Giấy phép
 
-`vbpl` CC-BY-4.0 (metadata), `tnpl`/`hdpl` giấy phép riêng của nguồn; nội dung
-văn bản thuộc © thuvienphapluat.vn. Dự án này chỉ xử lý dữ liệu đã công khai.
+**Mã nguồn** trong repo này dùng cho mục đích học tập và nghiên cứu.
+
+**Dữ liệu không thuộc repo và không được phát hành lại kèm theo.** `vbpl`
+CC-BY-4.0 (phần metadata), `tnpl`/`hdpl` theo giấy phép riêng của nguồn; nội
+dung toàn văn văn bản thuộc © thuvienphapluat.vn. Repo chỉ chứa mã để *xử lý*
+dữ liệu đã công khai, không chứa và không phân phối bản sao dữ liệu đó.
+
+Văn bản quy phạm pháp luật do Nhà nước ban hành không phải đối tượng bảo hộ
+quyền tác giả theo Điều 15 Luật Sở hữu trí tuệ, nhưng phần biên tập, chuẩn hoá
+và cơ sở dữ liệu của thuvienphapluat.vn thì có. Nếu bạn định dùng ngoài phạm vi
+học tập cá nhân, hãy tự kiểm tra điều khoản sử dụng của nguồn.
